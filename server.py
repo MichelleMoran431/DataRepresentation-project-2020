@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, abort
 from CoffeeExpertsDAO import coffeedao
 
-app = Flask(__name__, static_url_path='', static_folder='.')
+app = Flask(__name__, static_url_path='', static_folder='staticpages')
 
 #app = Flask(__name__)
 

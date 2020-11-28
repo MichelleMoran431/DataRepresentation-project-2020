@@ -1,0 +1,113 @@
+<html>
+    <head>
+
+   </head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+       
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title> Coffeeexpress Consumers log </title>
+    <body>
+        <div id ="create-update" style="display:none">
+            <h2>Coffeeexpress Consumers</h2>
+            <table>
+                <tr>
+                    <td>Id</td>
+                    <td><input type ="text" name="ID"></td>
+                </tr>
+                <tr>
+                    <td>Firstname</td>
+                    <td><input type ="text" name="Firstname"></td>
+                </tr>        
+                <tr>
+                    <td>Lastname</td>
+                    <td><input type ="text" name="Lastname"></td>
+                </tr>  
+                <tr>
+                    <td>Postcode</td>
+                    <td><input type ="text" name="Postcode"></td>
+                </tr> 
+                <tr>
+                    <td></td><td>
+                        <button id="create-button" onClick="docreate()">Create</button>
+                    </td>
+                </tr>
+             </table>
+        </div>
+        <div id="display">
+            <h2>Coffeeconsumers</h2>
+            <button onClick ="showCreate()">Create</button>
+            <table id = "consumertable" class ="table">
+                <tr>
+                    <th>ID</th><th>firstname</th><th>lastname</th><td>postcode</td>
+             </table>
+
+             
+        </div>
+
+        <script>
+            function showCreate(){
+                document.getElementById('display').style.display="none"
+                document.getElementById('create-update').style.display="block"
+            }
+            function docreate(){
+                showDisplay()
+            }
+
+
+
+            function showDisplay(){
+                document.getElementById('display').style.display="block"
+                document.getElementById('create-update').style.display="none"
+            }
+
+
+
+
+
+             function populateTable(){
+                //ajax getAll
+            $.ajax({
+                url:'http://127.0.0.1:5000/coffeeconsumers',
+                method:'GET',
+                datatype:'JSON',
+                success:function(results){
+                    for (coffeeconsumer of results){
+                        addconsumerToTable(coffeeconsumer)
+                    }
+                },
+                error:function(xhr,status,error){
+                    console.log("error" +error +" code:"+status)
+                }
+                //coffeeconsumer = {
+                   // id:369,
+                    //firstname:"Carmel",
+                    //lastname:"Conway",
+                    //postcode:"F43K345"
+                })     
+                //addconsumerToTable(coffeeconsumer)
+            }
+            function addconsumerToTable(coffeeconsumer){
+                //console.log("working so far")
+                tableElem = document.getElementById("consumertable")
+                rowElem = tableElem.insertRow(-1)
+                rowElem.setAttribute("id",coffeeconsumer.id)
+                cell1=rowElem.insertCell(0)
+                cell1.innerHTML =coffeeconsumer.id
+                cell2=rowElem.insertCell(1)
+                cell2.innerHTML =coffeeconsumer.firstname
+                cell3=rowElem.insertCell(2)
+                cell3.innerHTML =coffeeconsumer.lastname
+                cell4=rowElem.insertCell(3)
+                cell4.innerHTML =coffeeconsumer.postcode
+                cell5=rowElem.insertCell(4)
+                cell5.innerHTML ='<button onclick="showUpdate(this)">Update<button>'
+                cell6=rowElem.insertCell(5)
+                cell6.innerHTML ='<button onclick="doDelete(this)">delete<button>'
+
+
+            }
+            populateTable()
+        </script>
+    </body>
+</html>  
+        

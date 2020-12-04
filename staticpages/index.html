@@ -8,10 +8,10 @@
         <title> Coffeeexpress Consumers log </title>
     <body>
         <div id ="create-update" style="display:none">
-            <h2>Create or update a Record</h2>
+            <h2>Create/update/edit a Record</h2>
             <table class="table" id="createUpdateForm">
                 <tr>
-                    <td>Customer Id</td>
+                    <td>id</td>
                     <td><input type ="text" name="ID" id="idInput"></td>
                 </tr>
                 <tr>
@@ -27,9 +27,10 @@
                     <td><input type ="text" name="Postcode"></td>
                 </tr> 
                 <tr>
-                    <td></td>
-                        <td><button id="create-button" onClick="docreate()">Create</button></td>
-                        <td><button id="update-button" onclick="doUpdate()">Update</button></td>
+                    <td></td><td>
+                        <button id="create-button" onclick="docreate()">Create</button>
+                        <td><button id="update-button" onclick="doUpdate()">update</button>
+                        </td>
                 </tr>
              </table>
         </div>
@@ -39,7 +40,7 @@
             <br><br>
             <table id ="consumertable" class ="table">
                 <tr>
-                    <th>customer ID</th><th>firstname</th><th>lastname</th><td>postcode</td>
+                    <th>Consumer ID</th><th>Firstname</th><th>Lastname</th><td>Postcode</td>
                 </tr>
                 <tr ID="123">
                     <td></td>
@@ -55,7 +56,54 @@
         <script>
             function showCreate(){
                 document.getElementById('display').style.display="none"
+                document.getElementById('update-button').style.display="none"
+                document.getElementById('create-button').style.display="block"
                 document.getElementById('create-update').style.display="block"
+            }
+            function showUpdate(thisElem){
+                var rowElement = thisElem.parentNode.parentNode;
+                coffeeconsumer = readCoffeeconsumerfromRow(rowElement)
+                populateForm(coffeeconsumer)
+
+                console.log(coffeeconsumer)
+                document.getElementById("idInput").disabled = true
+                document.getElementById('display').style.display="none"
+
+                document.getElementById('update-button').style.display="block"
+                document.getElementById('create-button').style.display="none"
+                document.getElementById('create-update').style.display="block"
+            }
+            function readCoffeeconsumerfromRow(rowElement){
+                coffeeconsumer = {}
+                //coffeeconsumer.id = rowElement.getAttribute("id");
+                coffeeconsumer.Firstname =rowElement.cells[1].firstChild.textContent
+                coffeeconsumer.Lastname = rowElement.cells[2].firstChild.textContent
+                coffeeconsumer.Postcode = rowElement.cells[3].firstChild.textContent
+
+                return coffeeconsumer
+            }
+            function populateForm(coffeeconsumer){
+                var form = document.getElementById('createUpdateForm')
+                //form.querySelector('input[name="id"]').value = coffeeconsumer.id 
+                //form.querySelector('input[name="id"]').disabled=true
+                form.querySelector('input[name="Firstname"]').value=coffeeconsumer.Firstname 
+                form.querySelector('input[name="Lastname"]').value=coffeeconsumer.Lastname
+                form.querySelector('input[name="Postcode"]').value=coffeeconsumer.Postcode
+                console.log(coffeeconsumer)
+                return coffeeconsumer
+                //document.getElementById('idInput').value=id
+                //document.getElementById('idInput').disabled=true
+
+
+            }
+            function clearForm(){
+                var form = document.getElementById('createUpdateForm')
+                //form.querySelector('input[name="id"]').value = '' 
+                //form.querySelector('input[name="id"]').disabled=true
+                form.querySelector('input[name="Firstname"]').value=''
+                form.querySelector('input[name="Lastname"]').value=''
+                form.querySelector('input[name="Postcode"]').value=''
+
             }
             function docreate(){
                 console.log("in doCreate")
@@ -70,16 +118,38 @@
                         console.log(result)
                         addcoffeeconsumertoTable(coffeeconsumer)
                         showDisplay()
+                        clearForm()
                     },
                     error:function(xhr,status,error){
                         console.log("error" +error)
                     }
                 })
              } 
+             function doUpdate(){
+                 coffeeconsumer= getcoffeeconsumerFromForm()
+                 updateServer(coffeeconsumer)
+                 //updateTableRow(coffeeconsumer)
+                 //showDisplay()
+             }
+             function updateServer(coffeeconsumer){
+                $.ajax({
+                    url:"http://127.0.0.1:5000/coffeeconsumers",
+                    method:"PUT",
+                    data:JSON.stringify(coffeeconsumer),
+                    dataType:"JSON",
+                    contentType:"application/json;charset=utf-8",
+                    success:function(result){
+                        console.log(result)
+                        updateTableRow(coffeeconsumer)
+                        showDisplay()
+                        clearForm()
+                    }
+                })
+             } 
              function doDelete(thisElem){
-                 var tableElement = document.getElementById('consumertable');
-                 var rowElement = thisElem.parentNode.parentNode;
-                 var index = rowElement.rowIndex;
+                 var tableElement = document.getElementById('consumertable')
+                 var rowElement = thisElem.parentNode.parentNode
+                 var index = rowElement.rowIndex
 
                  ID = rowElement.getAttribute("id");
                  console.log(ID)
@@ -98,8 +168,16 @@
                         // console.log()
                      }
                })
-             }
-            function getcoffeeconsumerFromForm(){
+                }
+                function updateTableRow(coffeeconsumer){
+                    rowElement = document.getElementById(coffeeconsumer.id)
+                    rowElement.cells[2].firstChild.textContent = coffeeconsumer.Firstname
+                    rowElement.cells[3].firstChild.textContent = coffeeconsumer.Lastname
+                    rowElement.cells[4].firstChild.textContent = coffeeconsumer.Postcode
+                    //console.log("updating table")
+
+                }
+                function getcoffeeconsumerFromForm(){
                 var form = document.getElementById('createUpdateForm')
 
                 var coffeeconsumer = {}
@@ -114,7 +192,7 @@
                 document.getElementById('display').style.display="block"
                 document.getElementById('create-update').style.display="none"
             }
-             function populateTable(){
+            function populateTable(){
                 //ajax getAll[]
             coffeeconsumer = '';
                 $.ajax({
@@ -163,5 +241,4 @@
             populateTable()
         </script>
     </body>
-</html>  
-        
+</html> )

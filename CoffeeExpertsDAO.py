@@ -10,23 +10,24 @@ class coffeedao:
         user="root",
         password="",
         database="coffeeexpress"
-        )
+    )
         #print ("connection made")
 
-    def create(self,coffeeconsumer):    
+    def create(self,coffeeconsumers):    
         cursor = self.db.cursor()
         sql="insert into coffeeconsumers (firstname,lastname,postcode) values (%s,%s,%s)"
         values = [
-            coffeeconsumer['firstname'],
-            coffeeconsumer['lastname'],
-            coffeeconsumer['postcode']
+            #coffeeconsumers['id'],
+            coffeeconsumers['firstname'],
+            coffeeconsumers['lastname'],
+            coffeeconsumers['postcode'],
         ]
         cursor.execute(sql, values)
         self.db.commit()
         return cursor.lastrowid
 
         #make a new instance of the class to get the code to run
-#coffeedao = coffeedao()
+        #coffeedao = coffeedao()
 
     def getAll(self):
         cursor = self.db.cursor()
@@ -50,18 +51,18 @@ class coffeedao:
         result = cursor.fetchone()
         return self.convertToDict(result)
 
-    def update(self,coffeeconsumer):
+    def update(self,coffeeconsumers):
         cursor = self.db.cursor()
         sql = " update coffeeconsumers set firstname = %s, lastname = %s,postcode = %s where id = %s"
         values =[   
-            coffeeconsumer['id'],
-            coffeeconsumer['firstname'],
-            coffeeconsumer['lastname'],
-            coffeeconsumer['postcode']
+            coffeeconsumers['id'],
+            coffeeconsumers['firstname'],
+            coffeeconsumers['lastname'],
+            coffeeconsumers['postcode'],
         ]
         cursor.execute(sql, values)
         self.db.commit()
-        return coffeeconsumer
+        return coffeeconsumers
 
     def delete (self,id):
         cursor = self.db.cursor()
@@ -81,4 +82,4 @@ class coffeedao:
                 coffeeconsumer[colName]=value
             return coffeeconsumer
     
-coffeedao = coffeedao()  
+coffeedao = coffeedao() 

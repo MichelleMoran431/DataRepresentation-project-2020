@@ -8,11 +8,11 @@
         <title> Coffeeexpress Consumers log </title>
     <body>
         <div id ="create-update" style="display:none">
-            <h2>Coffeeexpress Consumers</h2>
-            <table>
+            <h2>Create or update a Record</h2>
+            <table class="table" id="createUpdateForm">
                 <tr>
-                    <td>Id</td>
-                    <td><input type ="text" name="ID"></td>
+                    <td>Customer Id</td>
+                    <td><input type ="text" name="ID" id="idInput"></td>
                 </tr>
                 <tr>
                     <td>Firstname</td>
@@ -27,21 +27,29 @@
                     <td><input type ="text" name="Postcode"></td>
                 </tr> 
                 <tr>
-                    <td></td><td>
-                        <button id="create-button" onClick="docreate()">Create</button>
-                    </td>
+                    <td></td>
+                        <td><button id="create-button" onClick="docreate()">Create</button></td>
+                        <td><button id="update-button" onclick="doUpdate()">Update</button></td>
                 </tr>
              </table>
         </div>
         <div id="display">
             <h2>Coffeeconsumers</h2>
-            <button onClick ="showCreate()">Create</button>
-            <table id = "consumertable" class ="table">
+            <button onClick ="showCreate()">Create a new consumer</button>
+            <br><br>
+            <table id ="consumertable" class ="table">
                 <tr>
-                    <th>ID</th><th>firstname</th><th>lastname</th><td>postcode</td>
-             </table>
-
-             
+                    <th>customer ID</th><th>firstname</th><th>lastname</th><td>postcode</td>
+                </tr>
+                <tr ID="123">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="showUpdate(this)">Update</button></td>
+                    <td><button onclick="doDelete(this)">Delete</button></td>
+                </tr> 
+            </table>   
         </div>
 
         <script>
@@ -50,33 +58,79 @@
                 document.getElementById('create-update').style.display="block"
             }
             function docreate(){
-                showDisplay()
+                console.log("in doCreate")
+                coffeeconsumer= getcoffeeconsumerFromForm()
+                $.ajax({
+                    url:"http://127.0.0.1:5000/coffeeconsumers",
+                    method:"POST",
+                    data:JSON.stringify(coffeeconsumer),
+                    dataType:"JSON",
+                    contentType:"application/json;charset=utf-8",
+                    success:function(result){
+                        console.log(result)
+                        addcoffeeconsumertoTable(coffeeconsumer)
+                        showDisplay()
+                    },
+                    error:function(xhr,status,error){
+                        console.log("error" +error)
+                    }
+                })
+             } 
+             function doDelete(thisElem){
+                 var tableElement = document.getElementById('consumertable');
+                 var rowElement = thisElem.parentNode.parentNode;
+                 var index = rowElement.rowIndex;
+
+                 ID = rowElement.getAttribute("id");
+                 console.log(ID)
+                 $.ajax({
+                     url:"/coffeeconsumers/"+ID,
+                     method:"DELETE",
+                     data: "",
+                     dateType:"JSON",
+                     contentType:"application/json; charset=utf-8",
+                     success:function(result){
+                        //console.log()
+                         tableElement.deleteRow(index);
+                     },
+                     error:function(xhr,status,error){
+                         console.log("error "+error)
+                        // console.log()
+                     }
+               })
+             }
+            function getcoffeeconsumerFromForm(){
+                var form = document.getElementById('createUpdateForm')
+
+                var coffeeconsumer = {}
+                //coffeeconsumer.id = form.querySelector('input[name="Id"]').value
+                coffeeconsumer.firstname = form.querySelector('input[name="Firstname"]').value
+                coffeeconsumer.lastname = form.querySelector('input[name="Lastname"]').value
+                coffeeconsumer.postcode = form.querySelector('input[name="Postcode"]').value
+                console.log(coffeeconsumer)
+                return coffeeconsumer
             }
-
-
-
             function showDisplay(){
                 document.getElementById('display').style.display="block"
                 document.getElementById('create-update').style.display="none"
             }
-
-
-
-
-
              function populateTable(){
-                //ajax getAll
-            $.ajax({
+                //ajax getAll[]
+            coffeeconsumer = '';
+                $.ajax({
                 url:'http://127.0.0.1:5000/coffeeconsumers',
                 method:'GET',
+                data:'',
                 datatype:'JSON',
+                contentType:"application/json;charset=utf-8",
                 success:function(results){
-                    for (coffeeconsumer of results){
-                        addconsumerToTable(coffeeconsumer)
-                    }
+                    results.forEach(addcoffeeconsumertoTable);
+                    //for (coffeeconsumer of results){
+                        //addconsumerToTable(coffeeconsumer)
+                    
                 },
-                error:function(xhr,status,error){
-                    console.log("error" +error +" code:"+status)
+                    error:function(xhr,status,error){
+                    console.log("error"+error +"code:"+status)
                 }
                 //coffeeconsumer = {
                    // id:369,
@@ -86,7 +140,7 @@
                 })     
                 //addconsumerToTable(coffeeconsumer)
             }
-            function addconsumerToTable(coffeeconsumer){
+            function addcoffeeconsumertoTable(coffeeconsumer){
                 //console.log("working so far")
                 tableElem = document.getElementById("consumertable")
                 rowElem = tableElem.insertRow(-1)

@@ -15,12 +15,18 @@ class coffeedao:
 
     def create(self,coffeeconsumers):    
         cursor = self.db.cursor()
-        sql="insert into coffeeconsumers (firstname,lastname,postcode) values (%s,%s,%s)"
+
+        #query for one table
+        sql="insert into coffeeconsumers (Firstname,Lastname,Postcode,Ordertype) values (%s,%s,%s,%s)"
+        #sql code to query two tables with an inner join statement
+        #sql= "SELECT coffeeconsumers.id, coffeeconsumers.firstName, coffeeconsumers.lastName, coffeeconsumers.postcode, consumerorders.ordertype FROM consumerorders INNER JOIN coffeeconsumers ON consumerorders.ordertype=coffeeconsumers.ordertype"
+
         values = [
             #coffeeconsumers['id'],
-            coffeeconsumers['firstname'],
-            coffeeconsumers['lastname'],
-            coffeeconsumers['postcode'],
+            coffeeconsumers['Firstname'],
+            coffeeconsumers['Lastname'],
+            coffeeconsumers['Postcode'],
+            coffeeconsumers['Ordertype'],
         ]
         cursor.execute(sql, values)
         self.db.commit()
@@ -31,7 +37,8 @@ class coffeedao:
 
     def getAll(self):
         cursor = self.db.cursor()
-        sql="select * from coffeeconsumers"
+        #sql="select * from coffeeconsumers"
+        sql = "SELECT coffeeconsumers.id, coffeeconsumers.firstName, coffeeconsumers.lastName, coffeeconsumers.postcode, consumerorders.ordertype FROM consumerorders INNER JOIN coffeeconsumers ON consumerorders.ordertype=coffeeconsumers.ordertype"
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
@@ -53,12 +60,13 @@ class coffeedao:
 
     def update(self,coffeeconsumers):
         cursor = self.db.cursor()
-        sql = " update coffeeconsumers set firstname = %s, lastname = %s,postcode = %s where id = %s"
+        sql = " update coffeeconsumers set Firstname = %s, Lastname = %s,Postcode = %s,ordertype = %s, where id = %s"
         values =[   
             coffeeconsumers['id'],
-            coffeeconsumers['firstname'],
-            coffeeconsumers['lastname'],
-            coffeeconsumers['postcode'],
+            coffeeconsumers['Firstname'],
+            coffeeconsumers['Lastname'],
+            coffeeconsumers['Postcode'],
+            coffeeconsumers['ordertype'],
         ]
         cursor.execute(sql, values)
         self.db.commit()
@@ -73,7 +81,7 @@ class coffeedao:
 
     #create a function to convert results to dict for later use in html file
     def convertToDict (self,result):
-        colnames = ['id','firstname','lastname','postcode']
+        colnames = ['id','Firstname','Lastname','Postcode','Ordertype']
         coffeeconsumer={} # create a tuple
 
         if result:

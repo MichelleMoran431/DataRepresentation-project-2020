@@ -8,7 +8,7 @@
         <title> Coffeeexpress Consumers log </title>
     <body>
         <div id ="create-update" style="display:none">
-            <h2>Create/update/edit a Record</h2>
+            <h2>Create/Update/Edit a Record</h2>
             <table class="table" id="createUpdateForm">
                 <tr>
                     <td>id</td>
@@ -27,10 +27,14 @@
                     <td><input type ="text" name="Postcode"></td>
                 </tr> 
                 <tr>
-                    <td></td><td>
-                        <button id="create-button" onclick="docreate()">Create</button>
-                        <td><button id="update-button" onclick="doUpdate()">update</button>
-                        </td>
+                    <td>Ordertype</td>
+                    <td><input type ="text" name="Ordertype"></td>
+                </tr> 
+                <tr>
+                    <td></td>
+                    <td><button id="create-button" onclick="docreate()">Create</button></td>
+                    <td><button id="update-button" onclick="doUpdate()">Update</button></td>
+                    <td><button id="goBack-button" onclick="goBack()">Back</button</td>
                 </tr>
              </table>
         </div>
@@ -40,7 +44,7 @@
             <br><br>
             <table id ="consumertable" class ="table">
                 <tr>
-                    <th>Consumer ID</th><th>Firstname</th><th>Lastname</th><th>Postcode</th>
+                    <th>Consumer ID</th><th>Firstname</th><th>Lastname</th><th>Postcode</th><th>Ordertype</th><th> </th>
                 </tr>
                 
             </table>   
@@ -50,58 +54,59 @@
             function showCreate(){
                 document.getElementById('display').style.display="none"
                 document.getElementById('update-button').style.display="none"
-                document.getElementById('create-button').style.display="block"
+                document.getElementById('update-button').style.display="block"
                 document.getElementById('create-update').style.display="block"
             }
             function showUpdate(thisElem){
                 var rowElement = thisElem.parentNode.parentNode;
-                coffeeconsumer = readCoffeeconsumerfromRow(rowElement)
-                populateForm(coffeeconsumer)
+                coffeeconsumer = readCoffeeconsumerfromRow(rowElement);
+                populateForm(coffeeconsumer);
 
                 //console.log(coffeeconsumer)
-                document.getElementById("idInput").disabled = true
-                document.getElementById('display').style.display="none"
+                //document.getElementById("idInput").disabled = true
+                document.getElementById('display').style.display="none";
 
-                document.getElementById('update-button').style.display="block"
-                document.getElementById('create-button').style.display="none"
-                document.getElementById('create-update').style.display="block"
+                document.getElementById('update-button').style.display="block";
+                document.getElementById('create-button').style.display="none";
+                document.getElementById('create-update').style.display="block";
             }
             function readCoffeeconsumerfromRow(rowElement){
                 coffeeconsumer = {}
-                coffeeconsumer.id = rowElement.getAttribute("ID");
-                coffeeconsumer.Firstname =rowElement.cells[1].firstChild.textContent
-                coffeeconsumer.Lastname = rowElement.cells[2].firstChild.textContent
-                coffeeconsumer.Postcode = rowElement.cells[3].firstChild.textContent
-
+                coffeeconsumer.id = rowElement.getAttribute("id");
+                coffeeconsumer.Firstname =rowElement.cells[1].firstChild.textContent;
+                coffeeconsumer.Lastname = rowElement.cells[2].firstChild.textContent;
+                coffeeconsumer.Postcode = rowElement.cells[3].firstChild.textContent;
+                //coffeeconsumer.Ordertype = rowElement.cells[4].firstChild.textContent;
+                console.log(coffeeconsumer,"readCoffeeconsumerfromRow");
                 return coffeeconsumer
             }
             function populateForm(coffeeconsumer){
-                var form = document.getElementById('createUpdateForm')
-                form.querySelector('input[name="ID"]').disabled=true
-
-                form.querySelector('input[name="ID"]').value = coffeeconsumer.id 
-                form.querySelector('input[name="Firstname"]').value=coffeeconsumer.Firstname 
-                form.querySelector('input[name="Lastname"]').value=coffeeconsumer.Lastname
-                form.querySelector('input[name="Postcode"]').value=coffeeconsumer.Postcode
+                var form = document.getElementById('createUpdateForm');
+                form.querySelector('input[name="ID"]').disabled=true;
+                console.log
+                form.querySelector('input[name="ID"]').value = coffeeconsumer.id; 
+                form.querySelector('input[name="Firstname"]').value=coffeeconsumer.Firstname; 
+                form.querySelector('input[name="Lastname"]').value=coffeeconsumer.Lastname;
+                form.querySelector('input[name="Postcode"]').value=coffeeconsumer.Postcode;
+                //form.querySelector('input[name="Ordertype"]').value=coffeeconsumer.Ordertype;
                 //console.log(coffeeconsumer)
                 return coffeeconsumer
                 //document.getElementById('idInput').value=id
                 //document.getElementById('idInput').disabled=true
-
-
             }
             function clearForm(){
                 var form = document.getElementById('createUpdateForm')
-                //form.querySelector('input[name="id"]').value = '' 
-                //form.querySelector('input[name="id"]').disabled=true
+                form.querySelector('input[name="ID"]').value = '' 
+                form.querySelector('input[name="ID"]').disabled=true
                 form.querySelector('input[name="Firstname"]').value=''
                 form.querySelector('input[name="Lastname"]').value=''
                 form.querySelector('input[name="Postcode"]').value=''
-
+                //form.querySelector('input[name="Ordertype"]').value=''
             }
             function docreate(){
                 console.log("in doCreate")
-                coffeeconsumer= getcoffeeconsumerFromForm()
+                coffeeconsumer= getcoffeeconsumerFromForm();
+                console.log(coffeeconsumer)
                 $.ajax({
                     url:"http://127.0.0.1:5000/coffeeconsumers",
                     method:"POST",
@@ -109,42 +114,47 @@
                     dataType:"JSON",
                     contentType:"application/json;charset=utf-8",
                     success:function(result){
-                        console.log(result)
+                        //console.log(result)
                         addcoffeeconsumertoTable(coffeeconsumer)
                         showDisplay()
-                        clearForm()
+                        //clearForm()
                     },
                     error:function(xhr,status,error){
-                        console.log("error" +error)
+                        console.log("error" +status)
                     }
                 })
              } 
              function doUpdate(){
-                 coffeeconsumer= getcoffeeconsumerFromForm()
-                 rowElement=document.getElementById(coffeeconsumer.id);
+                 coffeeconsumer= getcoffeeconsumerFromForm();
+                 //rowElement=document.getElementById(coffeeconsumer.id);
                  updateServer(coffeeconsumer);
                  //updateTableRow(coffeeconsumer);
-                // showDisplay()
+                 //showDisplay()
              }
              function updateServer(coffeeconsumer){
                 $.ajax({
-                    url:"http://127.0.0.1:5000/coffeeconsumers/"+coffeeconsumer.id,
-                    method:"PUT",
+                    url:"http://127.0.0.1:5000/coffeeconsumers/"+ coffeeconsumer.id,
                     data:JSON.stringify(coffeeconsumer),
+                    method:"PUT",
                     dataType:"JSON",
                     contentType:"application/json;charset=utf-8",
                     success:function(result){
                         console.log(result)
                         updateTableRow(coffeeconsumer)
+                        populateTable();
                         showDisplay()
                         clearForm()
+                    },
+
+                    error:function(xhr,status,error){
+                        console.log("error:"+status+"msg:"+error);
                     }
                 })
              } 
              function doDelete(thisElem){
-                 var tableElement = document.getElementById('consumertable')
-                 var rowElement = thisElem.parentNode.parentNode
-                 var index = rowElement.rowIndex
+                 var tableElement = document.getElementById('consumertable');
+                 var rowElement = thisElem.parentNode.parentNode;
+                 var index = rowElement.rowIndex;
 
                  ID = rowElement.getAttribute("ID");
                  console.log(ID)
@@ -163,58 +173,54 @@
                         // console.log()
                      }
                })
-                }
-                function updateTableRow(coffeeconsumer){
-                    rowElement = document.getElementById(coffeeconsumer.id)
-                    rowElement.cells[1].firstChild.textContent = coffeeconsumer.Firstname
-                    rowElement.cells[2].firstChild.textContent = coffeeconsumer.Lastname
-                    rowElement.cells[3].firstChild.textContent = coffeeconsumer.Postcode
-                    //console.log("updating table")
+            }
+            function updateTableRow(coffeeconsumer){
+                rowElement = document.getElementById(coffeeconsumer.id);
+                rowElement.cells[1].firstChild.textContent = coffeeconsumer.Firstname;
+                rowElement.cells[2].firstChild.textContent = coffeeconsumer.Lastname;
+                rowElement.cells[3].firstChild.textContent = coffeeconsumer.Postcode;
+                rowElement.cells[4].firstChild.textContent = coffeeconsumer.Ordertype;
+                console.log("updating table")
+                return coffeeconsumer
 
-                }
+            }
                 
-                function getcoffeeconsumerFromForm(){
+            function getcoffeeconsumerFromForm(){
                 var form = document.getElementById('createUpdateForm')
-
                 var coffeeconsumer = {}
                 coffeeconsumer.id = form.querySelector('input[name="ID"]').value
-                coffeeconsumer.firstname = form.querySelector('input[name="Firstname"]').value
-                coffeeconsumer.lastname = form.querySelector('input[name="Lastname"]').value
-                coffeeconsumer.postcode = form.querySelector('input[name="Postcode"]').value
+                coffeeconsumer.Firstname = form.querySelector('input[name="Firstname"]').value
+                coffeeconsumer.Lastname = form.querySelector('input[name="Lastname"]').value
+                coffeeconsumer.Postcode = form.querySelector('input[name="Postcode"]').value
+                coffeeconsumer.Ordertype = form.querySelector('input[name="Ordertype"]').value
                 //console.log(coffeeconsumer)
                 return coffeeconsumer
             }
+        
             function showDisplay(){
                 document.getElementById('display').style.display="block"
                 document.getElementById('create-update').style.display="none"
             }
             function populateTable(){
                 //ajax getAll[]
-            coffeeconsumer = '';
+            coffeeconsumer = "";
                 $.ajax({
-                url:'http://127.0.0.1:5000/coffeeconsumers',
+                url:"http://127.0.0.1:5000/coffeeconsumers",
                 method:'GET',
-                data:'',
-                datatype:'JSON',
+                data:" ",
+                datatype:"JSON",
                 contentType:"application/json;charset=utf-8",
                 success:function(results){
-                    results.forEach(addcoffeeconsumertoTable);
-                    //for (coffeeconsumer of results){
-                        //addconsumerToTable(coffeeconsumer)
-                    
-                },
-                    error:function(xhr,status,error){
+                        results.forEach(addcoffeeconsumertoTable); 
+
+                },  
+                    "error":function(xhr,status,error){
                     console.log("error"+error +"code:"+status)
-                }
-                //coffeeconsumer = {
-                   // id:369,
-                    //firstname:"Carmel",
-                    //lastname:"Conway",
-                    //postcode:"F43K345"
-                })     
-                //addconsumerToTable(coffeeconsumer)
+               }
+            
+            });       
             }
-            function addcoffeeconsumertoTable(coffeeconsumer){
+            function addcoffeeconsumertoTable(coffeeconsumer,indx){
                 //console.log("working so far")
                 tableElem = document.getElementById("consumertable")
                 rowElem = tableElem.insertRow(-1)
@@ -222,19 +228,23 @@
                 cell1=rowElem.insertCell(0)
                 cell1.innerHTML =coffeeconsumer.id
                 cell2=rowElem.insertCell(1)
-                cell2.innerHTML =coffeeconsumer.firstname
+                cell2.innerHTML =coffeeconsumer.Firstname
                 cell3=rowElem.insertCell(2)
-                cell3.innerHTML =coffeeconsumer.lastname
+                cell3.innerHTML =coffeeconsumer.Lastname
                 cell4=rowElem.insertCell(3)
-                cell4.innerHTML =coffeeconsumer.postcode
+                cell4.innerHTML =coffeeconsumer.Postcode
                 cell5=rowElem.insertCell(4)
-                cell5.innerHTML ='<button onclick="showUpdate(this)">Update<button>'
+                cell5.innerHTML =coffeeconsumer.Ordertype
                 cell6=rowElem.insertCell(5)
-                cell6.innerHTML ='<button onclick="doDelete(this)">delete<button>'
+                cell6.innerHTML ='<button onclick="showUpdate(${indx})">Update<button>'
+                cell7=rowElem.insertCell(6)
+                cell7.innerHTML ='<button onclick="doDelete(${indx})">delete<button>'
+                }
+                 populateTable()
 
-
-            }
-            populateTable()
+function goBack(){
+    window.location.href='http://127.0.0.1:5000/index.html';
+}
         </script>
     </body>
-</html> )
+</html> 

@@ -3,7 +3,12 @@
 
 File index : 
 
-
+|        FILE NAME        |                                               DESCRIPTION                                                |
+|:-----------------------:|:--------------------------------------------------------------------------------------------------------:|
+| server.py               | Web server for local host                                                                                |
+| CoffeeexpertsDAO.py     | Data Access Object file for interacting with the coffeeconsumers database                                |
+| CoffeeExperts Orders.py | Testing database connection                                                                              |
+| Index.html              | In staticpages folder - Home page that will facilitate the update/creation/deletion of consumer details  |
 
 
 

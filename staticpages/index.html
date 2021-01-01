@@ -1,11 +1,54 @@
 <html>
     <head>
-
-   </head>
+        <meta charset="utf-8" http-equiv="refresh" content="60"/> <!--Auto refresh every 60 seconds-->
+        <title>Coffeeexpress Consumers</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-       
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <title> Coffeeexpress Consumers log </title>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <div class="col-md-12"> 
+            <div class ="media">
+            <a href ="#" class = "thumbnail pull-left"> 
+            <p><h2>"Its amazing how the world begins to change through the eyes of a cup of coffee" </h2></p>          
+            <img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcxJtPSQ8rreS1A7NTFLMysMpl2E5gvlsqcA&usqp=CAU  class="img-rounded" alt="Cinque Terre" width="304" height="236"> </a> 
+            </div>
+                
+    
+    
+    <style>
+​    
+    /* Body text */
+    h1{ color: #5C1DDB; font-family: 'Rouge Script', Arial narrow; font-size: 50px; font-weight: normal; text-align: center; text-shadow: 1px 1px 2px #082b34; }
+
+    body,h2 {font-family: "Raleway", Garamond}
+    h1 {letter-spacing: 3px}
+    .w3-row-padding img {margin-bottom: 12px}
+    body {color: rgb(255, 145, 0);}
+    body {font-size: large;}
+    
+  
+    /*Text box forms*/
+    .container {
+    position: relative;
+    width: 900px;
+    clear: both;
+    
+    }
+    .container input {
+    width: 100%;
+    clear: both;
+    }
+    
+    /* Body colours*/
+    body {
+    height: 900px;
+
+    background-image: linear-gradient(lightSkyBlue, silver, royalblue, silver, lightSkyBlue); /* Standard syntax (must be last) */
+    }   
+
+    </style>
+    </head>
+  
+        <title><h1><b> Coffeeexpress Consumers </b></h1></title>
     <body>
         <div id ="create-update" style="display:none">
             <h2>Create/Update/Edit a Record</h2>
@@ -27,8 +70,11 @@
                     <td><input type ="text" name="Postcode"></td>
                 </tr> 
                 <tr>
-                    <td>Ordertype</td>
-                    <td><input type ="text" name="Ordertype"></td>
+                    Ordertype<select name="ordertype" >
+                    <option value="bean">bean</option>
+                    <option value="pod">pod</option>
+                    <option value="Ground">Ground</option>
+                    </select> <br />
                 </tr> 
                 <tr>
                     <td></td>
@@ -39,7 +85,7 @@
              </table>
         </div>
         <div id="display">
-            <h2>Coffeeconsumers</h2>
+            <h2>Coffeeexpress Consumers</h2>
             <button onClick ="showCreate()">Create a new consumer</button>
             <br><br>
             <table id ="consumertable" class ="table">
@@ -49,7 +95,6 @@
                 
             </table>   
         </div>
-
         <script>
             function showCreate(){
                 document.getElementById('display').style.display="none"
@@ -61,6 +106,7 @@
                 var rowElement = thisElem.parentNode.parentNode;
                 coffeeconsumer = readCoffeeconsumerfromRow(rowElement);
                 populateForm(coffeeconsumer);
+                
 
                 //console.log(coffeeconsumer)
                 //document.getElementById("idInput").disabled = true
@@ -76,7 +122,7 @@
                 coffeeconsumer.Firstname =rowElement.cells[1].firstChild.textContent;
                 coffeeconsumer.Lastname = rowElement.cells[2].firstChild.textContent;
                 coffeeconsumer.Postcode = rowElement.cells[3].firstChild.textContent;
-                //coffeeconsumer.Ordertype = rowElement.cells[4].firstChild.textContent;
+                coffeeconsumer.Ordertype = rowElement.cells[4].firstChild.textContent;
                 console.log(coffeeconsumer,"readCoffeeconsumerfromRow");
                 return coffeeconsumer
             }
@@ -88,7 +134,7 @@
                 form.querySelector('input[name="Firstname"]').value=coffeeconsumer.Firstname; 
                 form.querySelector('input[name="Lastname"]').value=coffeeconsumer.Lastname;
                 form.querySelector('input[name="Postcode"]').value=coffeeconsumer.Postcode;
-                //form.querySelector('input[name="Ordertype"]').value=coffeeconsumer.Ordertype;
+                form.querySelector('select[name="Ordertype"]').value=coffeeconsumer.Ordertype;
                 //console.log(coffeeconsumer)
                 return coffeeconsumer
                 //document.getElementById('idInput').value=id
@@ -104,7 +150,7 @@
                 //form.querySelector('input[name="Ordertype"]').value=''
             }
             function docreate(){
-                console.log("in doCreate")
+                //console.log("in doCreate")
                 coffeeconsumer= getcoffeeconsumerFromForm();
                 console.log(coffeeconsumer)
                 $.ajax({
@@ -114,10 +160,13 @@
                     dataType:"JSON",
                     contentType:"application/json;charset=utf-8",
                     success:function(result){
-                        //console.log(result)
+                     //console.log(result)
                         addcoffeeconsumertoTable(coffeeconsumer)
+                        populateconsumerorders ()
+                        populateordertype ()
                         showDisplay()
-                        //clearForm()
+                        clearForm()
+                      
                     },
                     error:function(xhr,status,error){
                         console.log("error" +status)
@@ -128,8 +177,8 @@
                  coffeeconsumer= getcoffeeconsumerFromForm();
                  //rowElement=document.getElementById(coffeeconsumer.id);
                  updateServer(coffeeconsumer);
-                 //updateTableRow(coffeeconsumer);
-                 //showDisplay()
+                 updateTableRow(coffeeconsumer);
+                 showDisplay()
              }
              function updateServer(coffeeconsumer){
                 $.ajax({
@@ -142,7 +191,10 @@
                         console.log(result)
                         updateTableRow(coffeeconsumer)
                         populateTable();
+                        populateordertype ()
                         showDisplay()
+                        
+
                         clearForm()
                     },
 
@@ -192,7 +244,7 @@
                 coffeeconsumer.Firstname = form.querySelector('input[name="Firstname"]').value
                 coffeeconsumer.Lastname = form.querySelector('input[name="Lastname"]').value
                 coffeeconsumer.Postcode = form.querySelector('input[name="Postcode"]').value
-                coffeeconsumer.Ordertype = form.querySelector('input[name="Ordertype"]').value
+                coffeeconsumer.ordertype = form.querySelector('select[name="ordertype"]').value
                 //console.log(coffeeconsumer)
                 return coffeeconsumer
             }
@@ -220,7 +272,24 @@
             
             });       
             }
-            function addcoffeeconsumertoTable(coffeeconsumer,indx){
+            function populateordertype (){
+            ordertype = '';
+            $.ajax({
+            url: "http://127.0.0.1:5000/coffeeconsumers",
+            method: 'GET',
+            data: '',
+            dataType: 'JSON',
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                results.forEach(addcoffeeconsumertoTable); 
+        },
+       error: function (xhr, status, error) {
+            console.log("error" + error + "code" + status);
+            }
+        });
+            }
+
+            function addcoffeeconsumertoTable(coffeeconsumer){
                 //console.log("working so far")
                 tableElem = document.getElementById("consumertable")
                 rowElem = tableElem.insertRow(-1)

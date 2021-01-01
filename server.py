@@ -26,7 +26,7 @@ def findById(id):
     return jsonify(coffeedao.findById(id))
 
 #create a new entry into the database
-#curl -X "POST" -H "Content-Type:application/json" -d "{\"Firstname\":\"juuu\",\"Lastname\":\"test\",\"Postcode\":\"test\",\"Ordertype\":\"juuu\"}" http://127.0.0.1:5000/coffeeconsumers
+#curl -X "POST" -H "Content-Type:application/json" -d "{\"Firstname\":\"james\",\"Lastname\":\"Bond\",\"Postcode\":\"F78K987\",\"Ordertype\":\"pods\"}" http://127.0.0.1:5000/coffeeconsumers
 # to check it worked .. curl http://127.0.0.1:5000/coffeeconsumers
 @app.route('/coffeeconsumers', methods=['POST'])
 def create():
@@ -45,6 +45,7 @@ def create():
  
 #update
 #curl -X "PUT" -d "{\"firstname\":\"Test\",\"lastname\":\"Test\"}" -H "Content-Type:application/json" http://127.0.0.1:5000/coffeeconsumers/1
+#curl -X "PUT" -d "{\"ordertype\":\"pods\"}" -H "Content-Type:application/json" http://127.0.0.1:5000/coffeeconsumers
 #PUT FUNCTION RETURNS AN EMPTY  JSON OBJECT
 @app.route('/coffeeconsumers/<int:id>', methods=['PUT'])
 def update(id): 
@@ -54,7 +55,7 @@ def update(id):
         return jsonify({}), 404
     currentcustomers = foundcustomers
     #if 'id' in request.json:
-       # currentcustomers['id'] = request.json['id']
+        #currentcustomers['id'] = request.json['id']
     if 'Firstname' in request.json:
         currentcustomers['Firstname'] = request.json['Firstname']
     if 'Lastname' in request.json:

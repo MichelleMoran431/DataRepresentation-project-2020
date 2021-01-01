@@ -66,7 +66,7 @@ class coffeedao:
             coffeeconsumers['Firstname'],
             coffeeconsumers['Lastname'],
             coffeeconsumers['Postcode'],
-            coffeeconsumers['ordertype'],
+            coffeeconsumers['Ordertype'],
         ]
         cursor.execute(sql, values)
         self.db.commit()

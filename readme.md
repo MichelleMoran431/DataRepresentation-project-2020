@@ -50,3 +50,47 @@
 </tbody>
 </table>
 
+
+### MySQL Database : coffeeexpress
+
+Two tables created  :
+
+- coffeeconsumers
+- consumerorders
+
+#### MySQL command to create tables :
+
+CREATE TABLE members( id int NOT NULL AUTO_INCREMENT, firstname VARCHAR(100), lastname VARCHAR(100), postcode VARCHAR(100), ordertype VARCHAR(100));
+
+Table : coffeeconsumers
+
+
+| FIELD     | TYPE          | NULL | KEY  | DEFAULT | EXTRA          |
+|-----------|---------------|------|------|---------|----------------|
+| id        | int (11)      | NO   | PRIM | NULL    | auto-increment |
+| firstname | varchar (100) | YES  |      | NULL    |                |
+| lastname  | varchar (100) | YES  |      | NULL    |                |
+| postcode  | varchar (11)  | YES  |      | NULL    |                |
+| ordertype | varchar (100) | NO   |      | NULL    |                |
+
+
+CREATE 2nd TABLE members( ordertype VARCHAR(255), amount INT(3));
+
+Table : consumerorders
+
+| FIELD     | TYPE          | NULL | KEY  | DEFAULT | EXTRA |
+|-----------|---------------|------|------|---------|-------|
+| ordertype | varchar (255) | YES  | PRIM | NULL    |       |
+| amount    | int (3)       | YES  |      | NULL    |       |
+
+#### MySQL command to insert row into tables
+
+insert into coffeeconsumers (id, firstname, lastname,postcode, ordertype) values ("Ian","Fleming", "D28 DF", "beans")
+
+insert into consumerorders (ordertype,amount) values ("beans",100)
+
+#### MySQL join command to join both tables
+
+select coffeeconsumers.id,coffeeconsumers.firstname,consumerorders.ordertype
+    -> from consumerorders
+    -> INNER JOIN coffeeconsumers on consumerorders.ordertype=coffeeconsumers.ordertype;

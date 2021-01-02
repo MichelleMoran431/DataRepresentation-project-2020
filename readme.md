@@ -16,11 +16,13 @@ File index :
 
 
 
+### Project Server
 
+Reference : Server.py
 
+Using Flask to create server that has a REST API, to perform the CURD operatons
 
-
-
+Run the server in an anaconda base command prompt. - python server.py
 
 
 <table>
@@ -37,21 +39,21 @@ File index :
 <tr>
 <td>Get All</td>
 <td>GET</td>
-<td>/groceries</td>
+<td>/coffeeconsumers</td>
 <td>none</td>
 <td>[{...},{...},{...}]</td>  
 </tr>
 <tr>
 <td>Find by id</td>
 <td>GET</td>
-<td>/groceries/id</td>
+<td>/coffeeconsumers/id</td>
 <td>none</td>
 <td>[{"id":"1","Firstname":"xxx"},{"Lastname":"xxx","Postcode":"xxx"}]
 </td> 
 <tr>
 <td>Create</td>
 <td>POST</td>
-<td>/groceries</td>
+<td>/coffeeconsumers</td>
 <td>{"Firstname":"xxx"},{"Lastname":"xxx","Postcode:"xxx"}</td>
 <td>[{"id":"1","Firstname":"xxx"},{"Lastname":"xxx","Postcode":"xxx"}]
 </td>
@@ -59,14 +61,14 @@ File index :
 <tr>
 <td>Update</td>
 <td>PUT</td>
-<td>/groceries/id</td>
+<td>/coffeeconsumers/id</td>
 <td>{"Postcode:"xxx"}</td>
 <td>[{"id":"1","Firstname":"xxx"},{"Lastname":"xxx","Postcode:"xxx"}]
 </td>
 </tr>
 <td>Delete</td>
 <td>DELETE</td>
-<td>/groceries/id</td>
+<td>/coffeeconsumers/id</td>
 <td>none</td>
 <td>{"done:"true}
 </td>
@@ -118,3 +120,7 @@ insert into consumerorders (ordertype,amount) values ("beans",100)
 select coffeeconsumers.id,coffeeconsumers.firstname,consumerorders.ordertype
     -> from consumerorders
     -> INNER JOIN coffeeconsumers on consumerorders.ordertype=coffeeconsumers.ordertype;
+    
+    
+   
+

@@ -9,19 +9,74 @@ A GIT-HUB file was created and the link was submitted  ( reference : https://git
 
 The following files : server.py and CoffeeExpertsDAO.py use CRUD operations for updates to the server and database.
 
-File index : 
+**File index :
+
 
 |        FILE NAME        |                                               DESCRIPTION                                                |
 |:-----------------------:|:--------------------------------------------------------------------------------------------------------:|
+| initdb.sql              | An outline of the two database tables created : coffeeconsumers and consumerorders                       |
+| /gitignore/config.py    | configuration code - stored here so it will not be push up to github                                     |
+| DBconfigtemplate.py     | Template of config code for future reference.                                                            |
+| requirements.md         | Outlines details of how to run this project                                                              |
+| ReadMe.md               | Project Details                                                                                          |
 | server.py               | Web server for local host                                                                                |
 | CoffeeexpertsDAO.py     | Data Access Object file for interacting with the coffeeconsumers database                                |
 | CoffeeExperts Orders.py | Testing database connection                                                                              |
-| Index.html              | In staticpages folder - Home page that will facilitate the update/creation/deletion of consumer details  |
+| /staticpages/index.html | In staticpages folder - Home page that will facilitate the update/creation/deletion of consumer details  |
+
+**1. Initdb.sql 
+
+This file shows the two database tables that were created in MySQL. 
 
 
+### MySQL Database : coffeeexpress
 
 
+Reference : initdb.sql - outlines how the two tables were created in MYSQL. The tables create were :
 
+
+- coffeeconsumers
+- consumerorders
+
+#### MySQL command to create tables :
+
+CREATE TABLE members( id int NOT NULL AUTO_INCREMENT, firstname VARCHAR(100), lastname VARCHAR(100), postcode VARCHAR(100), ordertype VARCHAR(100));
+
+Table : coffeeconsumers
+
+
+| FIELD     | TYPE          | NULL | KEY  | DEFAULT | EXTRA          |
+|-----------|---------------|------|------|---------|----------------|
+| id        | int (11)      | NO   | PRIM | NULL    | auto-increment |
+| firstname | varchar (100) | YES  |      | NULL    |                |
+| lastname  | varchar (100) | YES  |      | NULL    |                |
+| postcode  | varchar (11)  | YES  |      | NULL    |                |
+| ordertype | varchar (100) | NO   |      | NULL    |                |
+
+
+CREATE 2nd TABLE members( ordertype VARCHAR(255), amount INT(3));
+
+Table : consumerorders
+
+| FIELD     | TYPE          | NULL | KEY  | DEFAULT | EXTRA |
+|-----------|---------------|------|------|---------|-------|
+| ordertype | varchar (255) | YES  | PRIM | NULL    |       |
+| amount    | int (3)       | YES  |      | NULL    |       |
+
+#### MySQL command to insert row into tables
+
+insert into coffeeconsumers (id, firstname, lastname,postcode, ordertype) values ("Ian","Fleming", "D28 DF", "beans")
+
+insert into consumerorders (ordertype,amount) values ("beans",100)
+
+#### MySQL join command to join both tables
+
+select coffeeconsumers.id,coffeeconsumers.firstname,consumerorders.ordertype
+    -> from consumerorders
+    -> INNER JOIN coffeeconsumers on consumerorders.ordertype=coffeeconsumers.ordertype;
+    
+    
+   
 
 
 ### Project Server
@@ -84,52 +139,4 @@ Run the server in an anaconda base command prompt. - python server.py
 </tbody>
 </table>
 
-
-### MySQL Database : coffeeexpress
-
-
-Reference : initdb.sql - outlines how the two tables were created in MYSQL. The tables create are;S
-
-- coffeeconsumers
-- consumerorders
-
-#### MySQL command to create tables :
-
-CREATE TABLE members( id int NOT NULL AUTO_INCREMENT, firstname VARCHAR(100), lastname VARCHAR(100), postcode VARCHAR(100), ordertype VARCHAR(100));
-
-Table : coffeeconsumers
-
-
-| FIELD     | TYPE          | NULL | KEY  | DEFAULT | EXTRA          |
-|-----------|---------------|------|------|---------|----------------|
-| id        | int (11)      | NO   | PRIM | NULL    | auto-increment |
-| firstname | varchar (100) | YES  |      | NULL    |                |
-| lastname  | varchar (100) | YES  |      | NULL    |                |
-| postcode  | varchar (11)  | YES  |      | NULL    |                |
-| ordertype | varchar (100) | NO   |      | NULL    |                |
-
-
-CREATE 2nd TABLE members( ordertype VARCHAR(255), amount INT(3));
-
-Table : consumerorders
-
-| FIELD     | TYPE          | NULL | KEY  | DEFAULT | EXTRA |
-|-----------|---------------|------|------|---------|-------|
-| ordertype | varchar (255) | YES  | PRIM | NULL    |       |
-| amount    | int (3)       | YES  |      | NULL    |       |
-
-#### MySQL command to insert row into tables
-
-insert into coffeeconsumers (id, firstname, lastname,postcode, ordertype) values ("Ian","Fleming", "D28 DF", "beans")
-
-insert into consumerorders (ordertype,amount) values ("beans",100)
-
-#### MySQL join command to join both tables
-
-select coffeeconsumers.id,coffeeconsumers.firstname,consumerorders.ordertype
-    -> from consumerorders
-    -> INNER JOIN coffeeconsumers on consumerorders.ordertype=coffeeconsumers.ordertype;
-    
-    
-   
 

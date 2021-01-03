@@ -30,9 +30,13 @@ This file shows the two database tables that were created in MySQL.
 
 
 ### MySQL Database : coffeeexpress
+----------------------------------
 
+Reference Materia:
 
-Reference : initdb.sql - outlines how the two tables were created in MYSQL. The tables create were :
+ - https://www.w3schools.com
+
+Reference file  : initdb.sql - outlines how the two tables were created in MYSQL. The tables create were :
 
 
 - coffeeconsumers
@@ -75,15 +79,28 @@ select coffeeconsumers.id,coffeeconsumers.firstname,consumerorders.ordertype
     -> from consumerorders
     -> INNER JOIN coffeeconsumers on consumerorders.ordertype=coffeeconsumers.ordertype;
     
-    
+ ###**Configuration files 
+ 
+ Reference material # DR 10.01 Configuration files : Andrew Beatty ( week 10 material on Moodle)
+ 
+These were created to cover if this code is ran on different machines. The gitignore file was created to store any file that has config in its name so that it will not be uploaded to github preventing future issues. A template of this file was created so that we would have a copy.
+
+  - /gitignore/config.py    |
+  - DBconfigtemplate.py  
+  
+  The method used is storing in a python file as a variable and then it was imported into another file
    
-
-
 ### Project Server
 
-Reference : Server.py
+-------------------------
 
-Using Flask to create server that has a REST API, to perform the CURD operatons
+FIle Reference : Server.py
+
+This program creates a Flask server , which allows the database to interact with a web based interface. 
+The following was imported. 
+
+from flask import Flask, jsonify, request, abort,url_for,redirect
+from CoffeeExpertsDAO import coffeedao  - a link to the database created in CoffeeExpertsDAO.py below
 
 Run the server in an anaconda base command prompt. - python server.py
 
@@ -138,5 +155,49 @@ Run the server in an anaconda base command prompt. - python server.py
 </tr>  
 </tbody>
 </table>
+
+###**CoffeeExpertsDAO.py 
+-------------------
+
+Reference material : DR.9.4 DAO Walkthrough Andrew Beatty
+
+This file is the link between the database and the flask server. 
+A Class is created called coffeedao which contains all the functions needed for interaction with the database.
+
+**def init **- links to the database
+** def create -create a new record, into the database throught the sql statement INSERT. The values are stated here also. Curser is used to carryout the function to the database. it is imported at the start of the program code. 
+**def getAll** - returns all the data from the database
+**def ConvertToDict** - converts the returned data (a tupple) from the database into a dictionary object called 'coffeeconsumers{}'. The program iterates through the results, and for every column name returned, it converts it to a array.
+**def findByID** - searches the database for a specific id number, and returns to the user.
+**def update** - code to update an existing record in the database
+**def delete** - code to allow a user to delete an existing record in a database.
+
+###**/staticpages/index.html
+--------------------------
+
+Reference Material : 
+
+ - DR9.6 and DR9.7 HTML-AJAX Walkthrough parts - Andrew Beatty
+ - https://www.w3schools.com/html/
+ - https://www.w3schools.com/bootstrap/
+
+Creating the html that will use AJAX to link to the server and provide a user interface: 
+
+It has two screens : 
+
+ - Table displaying all the coffee consumers
+ - Create/Edit/Update screen
+ 
+It was coded and html created. Following Andrew Beattys walkthrough lectures , the getall , create and delete and then update completed. 
+Using Bootstrap to style the user interface , following www.w3schools.com tutorials. 
+
+
+ 
+
+
+
+
+
+
 
 

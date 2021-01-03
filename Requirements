@@ -1,9 +1,8 @@
 To run this project please do the following : 
 
-
-1. Run server.py on a command prompy ( NB : on my computer , I had to open a anaconda program base commandprompt for any of my code to work. It did not work on the terminal inside Visual studio code )
-2. For the Database program to work , you need mysql-connector - file reference - CoffeeExpertsDAO.py
-3. Index.html has the web interface, which uses AJAX calls, to perform the above CRUD operations. reference http://127.0.0.1:5000/index.html
+1. For the Database program to work , you need mysql-connector - file reference - CoffeeExpertsDAO.py
+2. Run server.py in the static pages on a command prompy ( NB : on my computer , I had to open a anaconda program base commandprompt for any of my code to work. It did not work on the terminal inside Visual studio code )
+3. Index.html has the web interface, which uses AJAX calls, to perform the above CRUD operations. Browser reference http://127.0.0.1:5000/index.html
 
 
 

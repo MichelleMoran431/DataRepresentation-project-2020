@@ -24,7 +24,8 @@ The following files : server.py and CoffeeExpertsDAO.py use CRUD operations for 
 | CoffeeExperts Orders.py | Testing database connection                                                                              |
 | /staticpages/index.html | In staticpages folder - Home page that will facilitate the update/creation/deletion of consumer details  |
 
-**1. Initdb.sql 
+
+## Initdb.sql 
 
 This file shows the two database tables that were created in MySQL. 
 
@@ -79,7 +80,7 @@ select coffeeconsumers.id,coffeeconsumers.firstname,consumerorders.ordertype
     -> from consumerorders
     -> INNER JOIN coffeeconsumers on consumerorders.ordertype=coffeeconsumers.ordertype;
     
- ###**Configuration files 
+ ### Configuration files 
  
  Reference material # DR 10.01 Configuration files : Andrew Beatty ( week 10 material on Moodle)
  
@@ -156,7 +157,7 @@ Run the server in an anaconda base command prompt. - python server.py
 </tbody>
 </table>
 
-###**CoffeeExpertsDAO.py 
+### CoffeeExpertsDAO.py 
 -------------------
 
 Reference material : DR.9.4 DAO Walkthrough Andrew Beatty
@@ -165,14 +166,20 @@ This file is the link between the database and the flask server.
 A Class is created called coffeedao which contains all the functions needed for interaction with the database.
 
 **def init **- links to the database
+
 ** def create -create a new record, into the database throught the sql statement INSERT. The values are stated here also. Curser is used to carryout the function to the database. it is imported at the start of the program code. 
+
 **def getAll** - returns all the data from the database
+
 **def ConvertToDict** - converts the returned data (a tupple) from the database into a dictionary object called 'coffeeconsumers{}'. The program iterates through the results, and for every column name returned, it converts it to a array.
+
 **def findByID** - searches the database for a specific id number, and returns to the user.
+
 **def update** - code to update an existing record in the database
+
 **def delete** - code to allow a user to delete an existing record in a database.
 
-###**/staticpages/index.html
+### /staticpages/index.html
 --------------------------
 
 Reference Material : 

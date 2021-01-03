@@ -1,6 +1,9 @@
 ## Data-Representation Project 2020
 ## Student : Michelle Moran
 
+NOTE : The Reference materials for this project are mentioned here in the README file at the start of each section. The majority of the references are from the various walkthoughs from Andrew Beattys DataRepresentation lectures, and also the W3 schools website tutorials. 
+
+
 Introduction : 
 
 The assessment choosen is the Web Application project A - To create a basic flask server that has a REST API, to preform CRUD operations. To create one database table and have an accompanying web interface, using AJAX calls, to perform these CRUD operations.
@@ -9,7 +12,7 @@ A GIT-HUB file was created and the link was submitted  ( reference : https://git
 
 The following files : server.py and CoffeeExpertsDAO.py use CRUD operations for updates to the server and database.
 
-**File index :
+## File index :
 
 
 |        FILE NAME        |                                               DESCRIPTION                                                |
@@ -95,7 +98,9 @@ These were created to cover if this code is ran on different machines. The gitig
 
 -------------------------
 
-FIle Reference : Server.py
+Reference material : DR 9.5 Server Walkthough Andrew Beatty
+
+File Reference : Server.py
 
 This program creates a Flask server , which allows the database to interact with a web based interface. 
 The following was imported. 

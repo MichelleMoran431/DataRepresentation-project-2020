@@ -6,6 +6,10 @@ NOTE : The Reference materials for this project are mentioned here in the README
 
 Introduction : 
 
+NB: Please note that the create-update and do-update functions do not work in the browser after the 2nd database was added. Due to time constraints , I was unable to complete this.
+
+
+
 The assessment choosen is the Web Application project A - To create a basic flask server that has a REST API, to preform CRUD operations. To create one database table and have an accompanying web interface, using AJAX calls, to perform these CRUD operations.
 
 A GIT-HUB file was created and the link was submitted  ( reference : https://github.com/g00387856/DataRepresentation-project-2020)

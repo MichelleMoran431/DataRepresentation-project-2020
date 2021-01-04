@@ -6,7 +6,7 @@ NOTE : The Reference materials for this project are mentioned here in the README
 
 Introduction : 
 
-NB: Please note that the create-update and do-update functions do not work in the browser after the 2nd database was added. Due to time constraints , I was unable to complete this.
+NB: Please note that the create-update and do-update functions do not work in the browser after the 2nd database table was added. Due to time constraints , I was unable to complete this.
 
 
 
@@ -207,7 +207,29 @@ It has two screens :
 It was coded and html created. Following Andrew Beattys walkthrough lectures , the getall , create and delete and then update completed. 
 Using Bootstrap to style the user interface , following www.w3schools.com tutorials. 
 
+---------------------------------------------------------------------------------------------------------
 
+ ### Project Conclusions : 
+ 
+ -  Project A a Web Application project chosen and the following tasks completed :
+ 
+ - A basic Flask server created that has a REST API, to perform CRUD operations.
+ - Two database table created
+ - Accompanying web interface , using AJAX calls, to perform these CRUD operations. 
+ 
+ Extra marks attempt : include a second table in the database. 
+ 
+ This table was created and a successful SQL join was completed , where the browser was updated but issues arose when trying to create the code for create and update including the second table data. The common data column was the ordertype. I ran out of time to try and complete properly. 
+ I used bootstrap to upstyle the web page and hope that is user friendly. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
 
 
